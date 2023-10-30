@@ -1,13 +1,28 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import axios from "axios";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import MessageContainer from "./MessageContainer.vue";
 import InputMessage from "./InputMessage.vue";
 
 const messages = ref([]);
 const rooms = ref([]);
 const currentRoom = ref([]);
+
+const connect = () => {
+    if(currentRoom.value.id){
+        getMessages()
+        window.Echo.private("chat." + currentRoom.value.id)
+        .listen(".message.new" , e => {
+            getMessages()
+        })
+    }
+}
+
+watch(currentRoom,() => {
+    connect()
+})
+
 
 const getRooms = async () => {
     await axios
@@ -34,7 +49,6 @@ const getMessages = async () => {
 
 const setRoom = (room) => {
     currentRoom.value = room;
-    getMessages();
 };
 
 onMounted(() => {
