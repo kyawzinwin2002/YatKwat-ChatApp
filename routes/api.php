@@ -19,8 +19,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix("v1")->middleware("auth:sanctum")->controller(ChatController::class)->group(function(){
-    Route::get("/rooms","rooms");
-    Route::get("/{roomId}/messages","messages");
-    Route::post("/message/send","sendMessage");
-});

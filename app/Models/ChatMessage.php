@@ -17,11 +17,11 @@ class ChatMessage extends Model
 
     public function room()
     {
-        return $this->hasOne(ChatRoom::class);
+        return $this->belongsTo(ChatRoom::class);
     }
 
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 }
