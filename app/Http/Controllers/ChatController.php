@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Message;
 use App\Events\NewChatMessage;
+use App\Events\SendMessage;
 use App\Models\ChatMessage;
 use App\Models\ChatRoom;
 use Illuminate\Http\Request;
@@ -19,7 +21,7 @@ class ChatController extends Controller
     {
         return ChatMessage::where("chat_room_id",$roomId)
             ->with(["room","user"])
-            ->orderBy("created_at","ASC")
+            ->orderBy("created_at","DESC")
             ->get();
     }
 
@@ -31,7 +33,7 @@ class ChatController extends Controller
             "message" => $request->messages
         ]);
 
-        broadcast(new NewChatMessage($newMessage))->toOthers();
+        Message::dispatch($newMessage);
 
         return response()->json([
             "message" => "Message Created Successfully"

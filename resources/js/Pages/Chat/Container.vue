@@ -4,25 +4,14 @@ import axios from "axios";
 import { onMounted, ref, watch } from "vue";
 import MessageContainer from "./MessageContainer.vue";
 import InputMessage from "./InputMessage.vue";
+import Pusher from "pusher-js";
+import Echo from 'laravel-echo';
 
-const messages = ref([]);
+
 const rooms = ref([]);
 const currentRoom = ref([]);
-
-const connect = () => {
-    if(currentRoom.value.id){
-        getMessages()
-        window.Echo.private("chat." + currentRoom.value.id)
-        .listen(".message.new" , e => {
-            getMessages()
-        })
-    }
-}
-
-watch(currentRoom,() => {
-    connect()
-})
-
+const messages = ref([]);
+const message = ref("");
 
 const getRooms = async () => {
     await axios
@@ -35,6 +24,8 @@ const getRooms = async () => {
             console.log(error);
         });
 };
+
+
 
 const getMessages = async () => {
     await axios
@@ -49,11 +40,23 @@ const getMessages = async () => {
 
 const setRoom = (room) => {
     currentRoom.value = room;
+    getMessages()
 };
+
 
 onMounted(() => {
     getRooms();
 });
+
+
+window.Echo.private("chatchannel")
+.listen(".message",(e) => {
+    getMessages()
+});
+
+
+
+
 </script>
 
 <template>
@@ -66,9 +69,9 @@ onMounted(() => {
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="bg-white  shadow-xl sm:rounded-lg">
                     <MessageContainer :messages="messages" />
-                    <InputMessage :room="currentRoom" />
+                    <InputMessage :room="currentRoom" :message="message"/>
                 </div>
             </div>
         </div>

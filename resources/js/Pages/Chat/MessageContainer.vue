@@ -8,15 +8,6 @@ const auth = ref([]);
 
 const messageContainerRef = ref(null);
 
-const scrollToBottom = () => {
-    setTimeout(() => {
-        if (messageContainerRef && messageContainerRef.value) {
-            messageContainerRef.value.scrollTop =
-                messageContainerRef.value.scrollHeight;
-        }
-    }, 300);
-};
-
 const getAuthUser = async () => {
     await axios
         .get("/user")
@@ -27,7 +18,6 @@ const getAuthUser = async () => {
             console.log(error);
         });
 
-    scrollToBottom();
 };
 
 onMounted(() => {
@@ -45,7 +35,7 @@ const senderOrNot = (messageId) => {
 
 <template>
     <div
-        class="h-96 p-3 overflow-hidden overflow-y-scroll"
+        class="h-96 p-3 flex flex-col-reverse overflow-y-scroll"
         ref="messageContainerRef"
     >
         <div class="flex flex-col my-5" v-for="message in props.messages">
