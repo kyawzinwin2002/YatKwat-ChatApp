@@ -5,19 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ChatMessage extends Model
+class GroupMessage extends Model
 {
     use HasFactory;
 
-    public $fillable = [
-        "chat_room_id",
-        "user_id",
-        "message"
-    ];
+    protected $fillable = ["user_id","group_id","message"];
 
-    public function room()
+    public function group()
     {
-        return $this->belongsTo(ChatRoom::class);
+        return $this->belongsTo(Group::class);
     }
 
     public function user()

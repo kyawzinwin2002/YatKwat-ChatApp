@@ -56,6 +56,9 @@ const logout = () => {
                                 <NavLink :href="route('chat')" :active="route().current('chat')">
                                     Chat
                                 </NavLink>
+                                <NavLink :href="route('group')" :active="route().current('group')">
+                                    Groups
+                                </NavLink>
                             </div>
                         </div>
 
@@ -202,6 +205,9 @@ const logout = () => {
                         <ResponsiveNavLink :href="route('chat')" :active="route().current('chat')">
                             Chat
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('group')" :active="route().current('group')">
+                            Groups
+                        </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->
@@ -283,7 +289,7 @@ const logout = () => {
 
             <!-- Page Heading -->
             <header v-if="$slots.header" class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl flex justify-between mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
             </header>

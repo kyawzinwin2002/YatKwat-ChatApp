@@ -1,23 +1,18 @@
 <script setup>
-import { inject, onMounted, ref } from "vue";
-import axios from "axios";
+import { onMounted, ref } from 'vue';
 
 const props = defineProps(["messages"]);
-
 const auth = ref([]);
-
-const messageContainerRef = ref(null);
 
 const getAuthUser = async () => {
     await axios
-        .get("/user")
+        .get("/authUser")
         .then((response) => {
             auth.value = response.data;
         })
         .catch((error) => {
             console.log(error);
         });
-
 };
 
 onMounted(() => {
@@ -31,13 +26,11 @@ const senderOrNot = (messageId) => {
 
     return false;
 };
-</script>
 
+
+</script>
 <template>
-    <div
-        class="h-96 p-3 flex flex-col-reverse overflow-y-scroll"
-        ref="messageContainerRef"
-    >
+    <div class="h-96 flex flex-col-reverse gap-5 overflow-y-scroll p-3">
         <div class="flex flex-col my-5" v-for="message in props.messages">
             <h1
                 :class="{ 'ms-auto': senderOrNot(message.user.id) }"
@@ -57,5 +50,3 @@ const senderOrNot = (messageId) => {
         </div>
     </div>
 </template>
-
-<style></style>

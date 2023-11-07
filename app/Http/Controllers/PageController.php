@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Inertia\Inertia;
 
 
@@ -16,5 +17,10 @@ class PageController extends Controller
     public function chatUI()
     {
         return Inertia::render("Chat/Container");
+    }
+
+    public function groupUI()
+    {
+        return Inertia::render("Group/Container");
     }
 }
