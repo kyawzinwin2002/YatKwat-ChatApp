@@ -3,9 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -27,6 +30,22 @@ class User extends Authenticatable
     {
         return $this->hasMany(GroupMessage::class);
     }
+
+    public function friendships()
+    {
+        return $this->hasMany(Friendship::class, "user_id", "id");
+    }
+
+    public function inverseFriendships()
+    {
+        return $this->hasMany(Friendship::class, "friend_id", "id");
+    }
+
+    public function receivedFriendRequests()
+    {
+        return $this->hasMany(FriendRequest::class, "receiver_id");
+    }
+
 
     /**
      * The attributes that are mass assignable.

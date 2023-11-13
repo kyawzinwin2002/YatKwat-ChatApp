@@ -14,15 +14,6 @@ use Inertia\Inertia;
 class GroupController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $user = User::find(Auth::id());
-        return $user->groups;
-    }
-
-    /**
      * Show the form for creating a new resource.
      */
     public function create()
@@ -54,12 +45,27 @@ class GroupController extends Controller
         ]);
     }
 
+    public function firstInviteMembers()
+    {
+        return User::with("groups")
+            ->where("id", "!=", Auth::id())
+            ->get();
+    }
+
+    public function remainInviteMembers($groupId)
+    {
+        $group = Group::find($groupId);
+
+        return User::whereDoesntHave("groups", function ($query) use ($group) {
+            $query->where("groups.id", $group->id);
+        })->get();
+    }
+
     public function join(Request $request)
     {
         $group = Group::find($request->group_id);
 
-        foreach($request->members as $member)
-        {
+        foreach ($request->members as $member) {
             $user = User::find($member);
             $user->groups()->attach($group);
         }
@@ -75,23 +81,7 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-        return Inertia::render("Group/ShowGroup", compact("group"));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Group $group)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateGroupRequest $request, Group $group)
-    {
-        //
+        return Inertia::render("Group/ShowGroup", ["group" => $group, "members" => $group->users]);
     }
 
     /**

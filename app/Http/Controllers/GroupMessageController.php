@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Events\SendMessage;
-use App\Models\Group;
 use App\Models\GroupMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

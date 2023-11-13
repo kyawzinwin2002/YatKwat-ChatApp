@@ -1,11 +1,14 @@
 <?php
 
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\FriendController;
+use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\GroupMessageController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserGroupController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +37,8 @@ Route::get('/', function () {
 
 Route::middleware('auth:sanctum')
     ->get('/authUser', function (Request $request) {
-        return $request->user();
+        $user = User::with(["groups", "messages", "receivedFriendRequests"])->find(Auth::id());
+        return $user;
     });
 
 Route::middleware([
@@ -42,22 +46,31 @@ Route::middleware([
     config('jetstream.auth_session'),
     "verified"
 ])->group(function () {
+
     Route::controller(PageController::class)->group(function () {
         Route::get("dashboard", "dashboardUI")->name("dashboard");
         Route::get("chat", "chatUI")->name("chat");
         Route::get("groups", "groupUI")->name("group");
+        Route::get("friends", "friendUI")->name("friends");
+        Route::get("requests", "requestUI")->name("requests");
     });
 
-    Route::resource("user", UserController::class);
-    Route::get("group/{groupId}/members", [UserController::class, "members"])->name("group.members");
-    Route::get("group/invite", [UserController::class, "firstInviteMembers"])->name("group.invite");
-    Route::get("group/{groupId}/remain", [UserController::class, "remainInviteMembers"])->name("group.remain");
 
     Route::resource("group", GroupController::class);
-    Route::post("group/join",[GroupController::class,"join"])->name("group.join");
+    Route::controller(GroupController::class)->group(function () {
+        Route::get("invite", "firstInviteMembers")->name("group.invite");
+        Route::get("remain/{groupId}",  "remainInviteMembers")->name("group.remain");
+        Route::post("group/join", "join")->name("group.join");
+    });
 
     Route::controller(GroupMessageController::class)->group(function () {
         Route::get("chat/group/{groupId}/messages", "messages");
         Route::post("chat/group/message", "sendMessage");
     });
+
+    Route::controller(FriendController::class)->group(function () {
+        Route::get("contacts/{userId}", "friendsAndStrangers");
+    });
+
+    Route::resource("request", FriendRequestController::class);
 });

@@ -16,6 +16,7 @@ const submitHandler = () => {
             members: members.value,
         })
         .then((response) => {
+            console.log(response)
             if (response.data.status) {
                 //Remain Routing
             }
@@ -27,15 +28,14 @@ const submitHandler = () => {
 
 onMounted(async () => {
     await axios
-        .get("/group/invite")
-        .then((response) => {
-            users.value = response.data;
+        .get("/invite")
+        .then(response => {
+            users.value = response.data
         })
-        .catch((error) => {
-            console.log(error);
-        });
+        .catch(error => {
+            console.log(error)
+        })
 });
-
 </script>
 <template>
     <AppLayout title="Dashboard">

@@ -1,7 +1,7 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref } from "vue";
 
-const props = defineProps(["messages"]);
+const {messages} = defineProps(["messages"]);
 const auth = ref([]);
 
 const getAuthUser = async () => {
@@ -26,12 +26,10 @@ const senderOrNot = (messageId) => {
 
     return false;
 };
-
-
 </script>
 <template>
     <div class="h-96 flex flex-col-reverse gap-5 overflow-y-scroll p-3">
-        <div class="flex flex-col my-5" v-for="message in props.messages">
+        <div class="flex flex-col my-5" v-for="message in messages">
             <h1
                 :class="{ 'ms-auto': senderOrNot(message.user.id) }"
                 class="my-2"

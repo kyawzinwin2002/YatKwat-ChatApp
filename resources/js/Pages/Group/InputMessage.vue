@@ -1,27 +1,27 @@
 <script setup>
-import axios from 'axios';
-import { ref } from 'vue';
+import axios from "axios";
+import { ref } from "vue";
 
-const props = defineProps(["currentGroup"]);
-const message = ref('');
+const {currentGroup} = defineProps(["currentGroup"]);
+const message = ref("");
 
 const sendMessageHandler = () => {
-    if(message.value == "") return;
+    if (message.value == "") return;
 
-    axios.post("/chat/group/message",{
-        groupId : props.currentGroup.id,
-        message : message.value
-    })
-    .then(response => {
-        console.log(response)
-    })
-    .catch(error => {
-        console.log(error)
-    })
+    axios
+        .post("/chat/group/message", {
+            groupId: currentGroup.id,
+            message: message.value,
+        })
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 
     message.value = "";
-}
-
+};
 </script>
 <template>
     <div class="flex gap-3 justify-between p-3">
