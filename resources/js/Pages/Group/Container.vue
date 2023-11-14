@@ -1,6 +1,6 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import JoinedGroups from "./JoinedGroups.vue";
+import Index from "./Index.vue";
 </script>
 
 <template>
@@ -22,7 +22,7 @@ import JoinedGroups from "./JoinedGroups.vue";
                 </div>
                 <hr />
                 <div class="my-3">
-                    <JoinedGroups />
+                    <Index />
                 </div>
             </div>
         </div>

@@ -2,10 +2,13 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import axios from "axios";
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 
 const groupName = ref("");
 const users = ref([]);
 const members = ref([]);
+
+const router = useRouter()
 
 const submitHandler = () => {
     if (members.value.length < 2) return;
@@ -16,10 +19,11 @@ const submitHandler = () => {
             members: members.value,
         })
         .then((response) => {
-            console.log(response)
-            if (response.data.status) {
-                //Remain Routing
+            console.log(response.data.status)
+            if(response.data.status){
+                router.back()
             }
+
         })
         .catch((error) => {
             console.log(error);

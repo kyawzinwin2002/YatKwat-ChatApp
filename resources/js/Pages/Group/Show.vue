@@ -2,8 +2,8 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import axios from "axios";
 import { onMounted, ref } from "vue";
-import MessageContainer from "./MessageContainer.vue";
-import InputMessage from "./InputMessage.vue";
+import messageIndex from "./Components/message.index.vue";
+import messageInput from "./Components/message.input.vue";
 import Pusher from "pusher-js";
 import Echo from "laravel-echo";
 
@@ -124,8 +124,8 @@ window.Echo.private(`groupMessage.${group.id}`).listen(
             </div>
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white shadow-xl sm:rounded-lg">
-                    <MessageContainer :messages="messages" />
-                    <InputMessage :currentGroup="group" />
+                    <messageIndex :messages="messages" />
+                    <messageInput :currentGroup="group" />
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 <script setup>
 import axios from "axios";
-import { onMounted, ref, defineProps } from "vue";
+import {  defineProps } from "vue";
 
 const { strangers } = defineProps(["strangers"]);
 

@@ -1,13 +1,10 @@
 <?php
 
-use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FriendController;
 use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\GroupMessageController;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserGroupController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Application;
@@ -37,7 +34,7 @@ Route::get('/', function () {
 
 Route::middleware('auth:sanctum')
     ->get('/authUser', function (Request $request) {
-        $user = User::with(["groups", "messages", "receivedFriendRequests"])->find(Auth::id());
+        $user = User::with(["groups", "messages"])->find(Auth::id());
         return $user;
     });
 
@@ -55,12 +52,11 @@ Route::middleware([
         Route::get("requests", "requestUI")->name("requests");
     });
 
-
     Route::resource("group", GroupController::class);
     Route::controller(GroupController::class)->group(function () {
-        Route::get("invite", "firstInviteMembers")->name("group.invite");
-        Route::get("remain/{groupId}",  "remainInviteMembers")->name("group.remain");
-        Route::post("group/join", "join")->name("group.join");
+        Route::get("invite", "firstInviteMembers");
+        Route::get("remain/{groupId}",  "remainInviteMembers");
+        Route::post("group/join", "join");
     });
 
     Route::controller(GroupMessageController::class)->group(function () {
@@ -69,7 +65,7 @@ Route::middleware([
     });
 
     Route::controller(FriendController::class)->group(function () {
-        Route::get("contacts/{userId}", "friendsAndStrangers");
+        Route::get("contacts/{userId}", "contacts");
     });
 
     Route::resource("request", FriendRequestController::class);

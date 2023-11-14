@@ -6,7 +6,7 @@ use App\Models\User;
 
 class FriendController extends Controller
 {
-    public function friendsAndStrangers($userId)
+    public function contacts($userId)
     {
         $user = User::with(['friendships', 'inverseFriendships'])->find($userId);
 

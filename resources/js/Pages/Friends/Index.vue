@@ -1,15 +1,15 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
+import Suggestion from "./Suggestion.vue";
 import axios from "axios";
 import { onMounted, ref, defineProps } from "vue";
-import Suggestion from "./Suggestion.vue";
 
 const friends = ref([]);
 const strangers = ref([]);
 
 const { user } = defineProps(["user"]);
 
-const getFrisAndStrangers = async () => {
+const getContacts = async () => {
     await axios
         .get(`/contacts/${user.id}`)
         .then((response) => {
@@ -22,7 +22,7 @@ const getFrisAndStrangers = async () => {
 };
 
 onMounted(() => {
-    getFrisAndStrangers();
+    getContacts();
 });
 </script>
 <template>
@@ -54,7 +54,7 @@ onMounted(() => {
                         </div>
                     </div>
                     <hr />
-                    <Suggestion :strangers="strangers" />
+                    <suggestion :strangers="strangers" />
                 </div>
             </div>
         </div>

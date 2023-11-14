@@ -26,9 +26,18 @@ const submit = () => {
 <template>
     <Head title="Register" />
 
+
+    <a href="/"  class="sm:fixed cursor-pointer sm:top-0 sm:left-0 p-6 text-right z-10">
+        <h1 class="text-3xl font-serif font-semibold">YatKwat</h1>
+    </a>
+
+    <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
+        <a href="/login" class="ml-4 font-semibold">Login</a>
+    </div>
+
     <AuthenticationCard>
         <template #logo>
-            <AuthenticationCardLogo />
+            <h1 class="text-5xl font-serif font-semibold">YatKwat</h1>
         </template>
 
         <form @submit.prevent="submit">
