@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Status;
+use App\Models\ChatMessage;
 use App\Models\FriendRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Http\Client\Request as ClientRequest;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +20,9 @@ class PageController extends Controller
 
     public function chatUI()
     {
-        return Inertia::render("Chat/Container");
+        $user = User::find(Auth::id());
+
+        return Inertia::render("Chat/Container",compact("user"));
     }
 
     public function groupUI()
@@ -40,5 +45,11 @@ class PageController extends Controller
             ->get();
 
         return Inertia::render("Requests/Index", compact("requests"));
+    }
+
+    public function singleUserUI(Request $request)
+    {
+        $user = User::find(Auth::id());
+        return  Inertia::render("Chat/Show",["id" => $request->id,"name" => $request->name,"user" => $user]);
     }
 }

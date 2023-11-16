@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FriendController;
 use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\GroupController;
@@ -50,6 +51,7 @@ Route::middleware([
         Route::get("groups", "groupUI")->name("group");
         Route::get("friends", "friendUI")->name("friends");
         Route::get("requests", "requestUI")->name("requests");
+        Route::get("chatMessage", "singleUserUI")->name("chatMessage");
     });
 
     Route::resource("group", GroupController::class);
@@ -69,4 +71,6 @@ Route::middleware([
     });
 
     Route::resource("request", FriendRequestController::class);
+    
+    Route::resource("userMessage", ChatController::class);
 });

@@ -45,8 +45,8 @@ const logout = () => {
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
-                                    <ApplicationMark class="block h-9 w-auto" />
+                                <Link :href="route('chat')">
+                                    <h1 class="text-4xl font-serif font-semibold">YatKwat</h1>
                                 </Link>
                             </div>
 

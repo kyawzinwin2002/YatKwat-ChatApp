@@ -23,3 +23,7 @@ Broadcast::channel("groupMessage.{groupId}",function($user,$groupId){
     return Auth::check();
 });
 
+Broadcast::channel("message.{receiver_id}",function($user,$receiver_id){
+    return Auth::check();
+});
+

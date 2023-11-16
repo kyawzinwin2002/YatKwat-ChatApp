@@ -40,11 +40,12 @@ onMounted(() => {
                         <h1 class="text-lg font-semibold">Friend List</h1>
 
                         <div class="my-3" v-for="friend in friends">
-                            <div
+                            <a
+                            :href='route("chatMessage",[{id : friend.id,name : friend.name}])'
                                 class="flex justify-between items-center p-5 border-2 shadow-md rounded-md"
                             >
                                 <h1>{{ friend.name }}</h1>
-                            </div>
+                            </a>
                         </div>
                         <div v-if="friends?.length < 1" class=" ">
                             <h1>
