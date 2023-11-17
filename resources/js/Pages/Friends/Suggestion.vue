@@ -1,8 +1,25 @@
 <script setup>
 import axios from "axios";
-import {  defineProps } from "vue";
+import { defineProps, ref, onMounted } from "vue";
 
-const { strangers } = defineProps(["strangers"]);
+const { strangers, authUser } = defineProps(["strangers", "authUser"]);
+const allRequests = ref([]);
+const sentRequests = authUser.sent_friend_requests;
+
+const getAllRequests = async () => {
+    await axios
+        .get("/request")
+        .then((response) => {
+            allRequests.value = response.data;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+};
+
+onMounted(() => {
+    getAllRequests();
+});
 
 const sendRequestHandler = (id) => {
     axios
@@ -11,6 +28,27 @@ const sendRequestHandler = (id) => {
         })
         .then((response) => {
             // console.log(response)
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+};
+
+const checkSentOrNot = (sender, receiver) => {
+    return sentRequests.some(
+        (r) => r.sender_id == sender && r.receiver_id == receiver
+    );
+};
+
+const cancelHandler = (sender, receiver) => {
+    const requestId = allRequests.value.find(
+        (r) => r.sender_id === sender && r.receiver_id === receiver
+    ).id;
+
+    axios
+        .delete(`/request/${requestId}`)
+        .then((response) => {
+            console.log(response);
         })
         .catch((error) => {
             console.log(error);
@@ -27,10 +65,23 @@ const sendRequestHandler = (id) => {
             >
                 <h1>{{ user.name }}</h1>
                 <button
-                    @click="sendRequestHandler(user.id)"
-                    class="px-6 py-2 rounded-md bg-blue-500 text-white"
+                    @click="
+                        checkSentOrNot(authUser.id, user.id)
+                            ? cancelHandler(authUser.id, user.id)
+                            : sendRequestHandler(user.id)
+                    "
+                    class="px-6 py-2 rounded-md"
+                    :class="
+                        checkSentOrNot(authUser.id, user.id)
+                            ? 'bg-gray-500 text-white'
+                            : 'bg-blue-500 text-white'
+                    "
                 >
-                    Add Friend
+                    {{
+                        checkSentOrNot(authUser.id, user.id)
+                            ? "Cancel Request"
+                            : "Add Friend"
+                    }}
                 </button>
             </div>
         </div>

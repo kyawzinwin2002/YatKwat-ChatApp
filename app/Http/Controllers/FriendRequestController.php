@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class FriendRequestController extends Controller
 {
+    public function index()
+    {
+        return FriendRequest::all();
+    }
     /**
      * Store a newly created resource in storage.
      */

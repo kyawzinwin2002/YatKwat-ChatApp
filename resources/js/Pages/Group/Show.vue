@@ -7,7 +7,7 @@ import messageInput from "./Components/message.input.vue";
 import Pusher from "pusher-js";
 import Echo from "laravel-echo";
 
-const {group,members} = defineProps(["group", "members"]);
+const { group, members } = defineProps(["group", "members"]);
 const messages = ref([]);
 const remainUsers = ref([]);
 const suggestMembers = ref([]);
@@ -62,12 +62,9 @@ onMounted(() => {
     loadInitialData();
 });
 
-window.Echo.private(`groupMessage.${group.id}`).listen(
-    ".sendMessage",
-    () => {
-        getMessages();
-    }
-);
+window.Echo.private(`groupMessage.${group.id}`).listen(".sendMessage", () => {
+    getMessages();
+});
 </script>
 <template>
     <AppLayout title="Dashboard">
@@ -92,10 +89,7 @@ window.Echo.private(`groupMessage.${group.id}`).listen(
                     <h1 class="font-semibold text-xl">Members</h1>
                     <hr />
                     <ul>
-                        <li
-                            class="cursor-pointer"
-                            v-for="member in members"
-                        >
+                        <li class="cursor-pointer" v-for="member in members">
                             {{ member.name }}
                         </li>
                     </ul>

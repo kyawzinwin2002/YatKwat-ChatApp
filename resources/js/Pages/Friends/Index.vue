@@ -41,7 +41,11 @@ onMounted(() => {
 
                         <div class="my-3" v-for="friend in friends">
                             <a
-                            :href='route("chatMessage",[{id : friend.id,name : friend.name}])'
+                                :href="
+                                    route('chatMessage', [
+                                        { id: friend.id, name: friend.name },
+                                    ])
+                                "
                                 class="flex justify-between items-center p-5 border-2 shadow-md rounded-md"
                             >
                                 <h1>{{ friend.name }}</h1>
@@ -55,7 +59,7 @@ onMounted(() => {
                         </div>
                     </div>
                     <hr />
-                    <suggestion :strangers="strangers" />
+                    <suggestion :authUser="user" :strangers="strangers" />
                 </div>
             </div>
         </div>

@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 
-const {messages} = defineProps(["messages"]);
+const { messages } = defineProps(["messages"]);
 const auth = ref([]);
 
 const getAuthUser = async () => {

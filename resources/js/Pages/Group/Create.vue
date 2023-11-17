@@ -1,44 +1,42 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import axios from "axios";
-import { onMounted, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 
-const groupName = ref("");
 const users = ref([]);
-const members = ref([]);
+const group = reactive({
+    name: "",
+    members: [],
+});
+const errors = ref({});
 
-const router = useRouter()
+const router = useRouter();
 
 const submitHandler = () => {
-    if (members.value.length < 2) return;
-
     axios
-        .post("/group", {
-            name: groupName.value,
-            members: members.value,
-        })
+        .post("/group", group)
         .then((response) => {
-            console.log(response.data.status)
-            if(response.data.status){
-                router.back()
+            console.log(response);
+            if (response.data.status) {
+                router.back();
             }
-
         })
         .catch((error) => {
-            console.log(error);
+            console.log(error.response.data.errors);
+            errors.value = error.response.data.errors;
         });
 };
 
 onMounted(async () => {
     await axios
         .get("/invite")
-        .then(response => {
-            users.value = response.data
+        .then((response) => {
+            users.value = response.data;
         })
-        .catch(error => {
-            console.log(error)
-        })
+        .catch((error) => {
+            console.log(error);
+        });
 });
 </script>
 <template>
@@ -60,13 +58,16 @@ onMounted(async () => {
                         <label for="" class="my-3">Group Name</label>
                         <input
                             type="text"
-                            v-model="groupName"
+                            v-model="group.name"
                             placeholder="Group Name"
                             class="rounded-md"
                         />
+                        <span class="text-red-600" v-if="errors?.name">{{
+                            errors.name[0]
+                        }}</span>
                     </div>
                     <div class="mt-5">
-                        <h1>Add Members</h1>
+                        <h1>Add Members (select atleast two members!!)</h1>
                     </div>
                     <div class="mb-3 flex flex-col">
                         <div
@@ -76,10 +77,13 @@ onMounted(async () => {
                             <input
                                 type="checkbox"
                                 :value="user.id"
-                                v-model="members"
+                                v-model="group.members"
                             />
                             <label for="">{{ user.name }}</label>
                         </div>
+                        <span class="text-red-600" v-if="errors?.members">{{
+                            errors.members[0]
+                        }}</span>
                     </div>
 
                     <div class="my-3">

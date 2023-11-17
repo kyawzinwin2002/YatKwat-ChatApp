@@ -2,7 +2,7 @@
 import axios from "axios";
 import { ref } from "vue";
 
-const {currentGroup} = defineProps(["currentGroup"]);
+const { currentGroup } = defineProps(["currentGroup"]);
 const message = ref("");
 
 const sendMessageHandler = () => {

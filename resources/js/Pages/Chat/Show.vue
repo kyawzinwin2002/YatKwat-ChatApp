@@ -25,11 +25,9 @@ onMounted(() => {
     getMessages();
 });
 
-window.Echo.private(`message.${user.id}`)
-    .listen(".sendChatMessage",() => {
-        getMessages()
-    })
-
+window.Echo.private(`message.${user.id}`).listen(".sendChatMessage", () => {
+    getMessages();
+});
 </script>
 <template>
     <AppLayout title="Dashboard">

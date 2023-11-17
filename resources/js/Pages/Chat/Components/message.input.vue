@@ -2,7 +2,7 @@
 import axios from "axios";
 import { ref } from "vue";
 
-const {receiver_id} = defineProps(["receiver_id"]);
+const { receiver_id } = defineProps(["receiver_id"]);
 const message = ref("");
 
 const sendMessageHandler = () => {
@@ -10,7 +10,7 @@ const sendMessageHandler = () => {
 
     axios
         .post("/userMessage", {
-            receiver_id : receiver_id,
+            receiver_id: receiver_id,
             message: message.value,
         })
         .then((response) => {

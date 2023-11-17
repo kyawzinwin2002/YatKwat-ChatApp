@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 
-const {messages} = defineProps(["messages"]);
+const { messages } = defineProps(["messages"]);
 const auth = ref([]);
 
 const getAuthUser = async () => {
@@ -30,7 +30,6 @@ const senderOrNot = (messageId) => {
 <template>
     <div class="h-96 flex flex-col-reverse gap-5 overflow-y-scroll p-3">
         <div class="flex flex-col my-5" v-for="message in messages">
-            
             <p
                 v-if="senderOrNot(message.sender_id)"
                 class="ms-auto p-3 rounded-md bg-slate-300 text-black"

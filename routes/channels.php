@@ -19,11 +19,10 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel("groupMessage.{groupId}",function($user,$groupId){
+Broadcast::channel("groupMessage.{groupId}", function ($user, $groupId) {
     return Auth::check();
 });
 
-Broadcast::channel("message.{receiver_id}",function($user,$receiver_id){
-    return Auth::check();
+Broadcast::channel("message.{receiver_id}", function ($user, $receiver_id) {
+    return $user->id == $receiver_id;
 });
-
