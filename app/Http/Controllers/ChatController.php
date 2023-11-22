@@ -33,13 +33,9 @@ class ChatController extends Controller
      */
     public function store(Request $request)
     {
-        $message = ChatMessage::create([
-            "sender_id" => Auth::id(),
-            "receiver_id" => $request->receiver_id,
-            "message" => $request->message
-        ]);
+        $message = new ChatMessage();
 
-        SendChatMessage::dispatch($message);
+        $message->send($request->message,Auth::id(),$request->receiver_id);
 
         return response()->json([
             "status" => true,
